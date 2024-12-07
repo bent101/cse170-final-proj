@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CollegeBuddy - Find Your Dream College</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+					Roboto, Arial, sans-serif;
+			}
+
+			nav {
+				background-color: #4263eb;
+				padding: 1rem;
+				color: white;
+			}
+
+			.nav-content {
+				max-width: 1200px;
+				margin: 0 auto;
+				display: flex;
+				align-items: center;
+				gap: 2rem;
+			}
+
+			.logo {
+				font-size: 1.5rem;
+				font-weight: bold;
+				color: white;
+				text-decoration: none;
+			}
+
+			.nav-links {
+				display: flex;
+				gap: 1.5rem;
+			}
+
+			.nav-links a {
+				color: rgba(255, 255, 255, 0.9);
+				text-decoration: none;
+				font-size: 1.1rem;
+			}
+
+			.search-container {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 4rem 1rem;
+				text-align: center;
+			}
+
+			h1 {
+				font-size: 3.5rem;
+				margin-bottom: 1.5rem;
+				font-weight: bold;
+			}
+
+			.subtitle {
+				font-size: 1.5rem;
+				color: #666;
+				margin-bottom: 4rem;
+				line-height: 1.5;
+			}
+
+			.search-options {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				margin-bottom: 2rem;
+			}
+
+			.search-option {
+				padding: 0.75rem 2rem;
+				background-color: #f1f3f5;
+				border-radius: 25px;
+				color: #495057;
+				font-size: 1.1rem;
+				cursor: pointer;
+				border: none;
+				transition: background-color 0.2s;
+			}
+
+			.search-option.active {
+				background-color: #e9ecef;
+				font-weight: 500;
+			}
+
+			.search-box {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				max-width: 800px;
+				margin: 0 auto;
+			}
+
+			.search-input {
+				flex-grow: 1;
+				padding: 1rem 1.5rem;
+				font-size: 1.1rem;
+				border: 2px solid #dee2e6;
+				border-radius: 12px;
+				outline: none;
+				transition: border-color 0.2s;
+			}
+
+			.search-input:focus {
+				border-color: #4263eb;
+			}
+
+			.search-button {
+				padding: 1rem 2.5rem;
+				background-color: #4263eb;
+				color: white;
+				border: none;
+				border-radius: 12px;
+				font-size: 1.1rem;
+				font-weight: 500;
+				cursor: pointer;
+				transition: background-color 0.2s;
+			}
+
+			.search-button:hover {
+				background-color: #3b5bdb;
+			}
+
+			@media (max-width: 768px) {
+				h1 {
+					font-size: 2.5rem;
+				}
+
+				.subtitle {
+					font-size: 1.2rem;
+				}
+
+				.search-options {
+					flex-wrap: wrap;
+				}
+
+				.search-box {
+					flex-direction: column;
+				}
+
+				.search-button {
+					width: 100%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<nav>
+			<div class="nav-content">
+				<a href="#" class="logo">CollegeBuddy</a>
+				<div class="nav-links">
+					<a href="/index.html">Discover</a>
+					<a href="/pathways.html">Your pathways</a>
+					<a href="/apps.html">Your apps</a>
+				</div>
+			</div>
+		</nav>
+
+		<main class="search-container">
+			<h1>Find your dream college</h1>
+			<p class="subtitle">
+				Search for colleges based on location, programs you're
+				interested in,<br />
+				or a tuition you're aiming for.
+			</p>
+
+			<div class="search-options">
+				<button class="search-option active" data-type="location">
+					Location
+				</button>
+				<button class="search-option" data-type="major">Major</button>
+				<button class="search-option" data-type="rankings">
+					Rankings
+				</button>
+			</div>
+
+			<div class="search-box">
+				<input
+					type="text"
+					class="search-input"
+					placeholder="San Diego, CA"
+					aria-label="Search colleges"
+				/>
+				<a href="search.html" class="search-button">Search</a>
+			</div>
+		</main>
+
+		<script>
+			const searchOptions = document.querySelectorAll(".search-option");
+			const searchInput = document.querySelector(".search-input");
+
+			const placeholders = {
+				location: "San Diego, CA",
+				major: "Computer Science",
+				rankings: "Top 100 Universities",
+			};
+
+			searchOptions.forEach((option) => {
+				option.addEventListener("click", () => {
+					searchOptions.forEach((opt) =>
+						opt.classList.remove("active")
+					);
+
+					option.classList.add("active");
+
+					const type = option.dataset.type;
+					searchInput.placeholder = placeholders[type];
+				});
+			});
+
+			const searchButton = document.querySelector(".search-button");
+			searchButton.addEventListener("click", () => {
+				const activeOption = document.querySelector(
+					".search-option.active"
+				);
+				const searchType = activeOption.dataset.type;
+				const searchValue = searchInput.value;
+
+				console.log(`Searching for ${searchValue} by ${searchType}`);
+			});
+
+			searchInput.addEventListener("keypress", (e) => {
+				if (e.key === "Enter") {
+					searchButton.click();
+				}
+			});
+		</script>
+	</body>
+</html>

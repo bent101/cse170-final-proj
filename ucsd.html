@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CollegeBuddy - UCSD</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+					Roboto, Arial, sans-serif;
+			}
+
+			nav {
+				background-color: #4263eb;
+				padding: 1rem;
+				color: white;
+			}
+
+			.nav-content {
+				max-width: 1200px;
+				margin: 0 auto;
+				display: flex;
+				align-items: center;
+				gap: 2rem;
+			}
+
+			.logo {
+				font-size: 1.5rem;
+				font-weight: bold;
+			}
+
+			.nav-links {
+				display: flex;
+				gap: 1.5rem;
+			}
+
+			.nav-links a {
+				color: rgba(255, 255, 255, 0.9);
+				text-decoration: none;
+			}
+
+			.hero-image {
+				width: 100%;
+				height: 300px;
+				background-image: url("https://upload.wikimedia.org/wikipedia/commons/4/44/Geisel_Library%2C_UCSD.jpg");
+				background-size: cover;
+				background-position: center;
+			}
+
+			.content {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 2rem 1rem;
+			}
+
+			.breadcrumb {
+				color: #666;
+				margin-bottom: 1rem;
+			}
+
+			.college-title {
+				font-size: 2rem;
+				margin-bottom: 1rem;
+			}
+
+			.tags {
+				display: flex;
+				gap: 0.3rem;
+				margin-bottom: 2rem;
+			}
+
+			.tag {
+				background-color: #eee;
+				padding: 0.25rem 0.5rem;
+				font-size: 0.875rem;
+				border-radius: 20px;
+				color: #444;
+			}
+
+			.stats {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 2rem;
+				margin-bottom: 2rem;
+			}
+
+			.distribution {
+				width: 100%;
+				max-width: 700px;
+				height: 350px;
+			}
+
+			.ratings {
+				display: flex;
+				flex-direction: column;
+				gap: 0.75rem;
+				padding-top: 2rem;
+				padding-left: 2rem;
+			}
+
+			.rating {
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+			}
+
+			.rating-label {
+				width: 130px;
+				font-size: 0.9rem;
+				color: #666;
+			}
+
+			.rating-bar {
+				flex-grow: 1;
+				height: 24px;
+				background-color: #e9ecef;
+				border-radius: 4px;
+				overflow: hidden;
+			}
+
+			.rating-fill {
+				height: 100%;
+				background-color: #74a0ff;
+			}
+
+			.rating-value {
+				width: 50px;
+				text-align: right;
+				font-size: 0.9rem;
+				color: #666;
+			}
+
+			.rating-value strong {
+				color: #000;
+				font-size: 1.1rem;
+			}
+
+			.data-source {
+				color: #777;
+				font-size: 0.9rem;
+				margin-bottom: 2rem;
+				text-align: right;
+			}
+
+			.data-source a {
+				color: inherit;
+			}
+
+			.buttons {
+				display: flex;
+				gap: 1rem;
+				margin-top: 2rem;
+			}
+
+			.btn {
+				padding: 0.75rem 1.5rem;
+				border-radius: 8px;
+				cursor: pointer;
+				font-weight: 500;
+			}
+
+			.btn-primary {
+				background-color: #4263eb;
+				color: white;
+				border: none;
+			}
+
+			.btn-secondary {
+				background-color: #f1f3f5;
+				color: #495057;
+				border: none;
+			}
+
+			.college-stats {
+				display: flex;
+				gap: 2rem;
+				flex-wrap: wrap;
+				padding: 1rem 0;
+			}
+
+			.stat {
+				display: flex;
+				flex-direction: column;
+				min-width: 120px;
+			}
+
+			.stat-value {
+				font-weight: 600;
+				font-size: 1.1rem;
+			}
+
+			.stat-label {
+				color: #666;
+				font-size: 0.9rem;
+			}
+
+			.fab-container {
+				position: fixed;
+				bottom: 2rem;
+				right: 2rem;
+				z-index: 100;
+			}
+
+			.fab {
+				position: relative;
+				padding: 1rem 1.5rem;
+				border-radius: 100px;
+				box-shadow: 0 4px 12px rgba(66, 99, 235, 0.3);
+				transition: transform 0.2s, box-shadow 0.2s;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+
+			.fab:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 6px 16px rgba(66, 99, 235, 0.4);
+			}
+
+			.fab-menu {
+				position: absolute;
+				bottom: 100%;
+				right: 0;
+				margin-bottom: 0.5rem;
+				background: white;
+				border-radius: 8px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+				overflow: hidden;
+				display: none;
+				min-width: 200px;
+			}
+
+			.fab-menu.show {
+				display: block;
+			}
+
+			.fab-menu-item {
+				padding: 0.75rem 1.5rem;
+				color: #495057;
+				cursor: pointer;
+				white-space: nowrap;
+				font-size: 0.9rem;
+			}
+
+			.fab-menu-item:hover {
+				background-color: red;
+				color: white;
+			}
+
+			.fab-toggle {
+				display: none;
+				margin-left: 0.25rem;
+			}
+
+			.fab-toggle.show {
+				display: inline-block;
+			}
+
+			.vdots {
+				width: 20px;
+				height: 20px;
+				display: inline-block;
+				position: relative;
+			}
+
+			.vdots::before {
+				content: "⋮";
+				font-size: 16px;
+			}
+
+			.description {
+				color: #666;
+				margin-bottom: 2rem;
+				line-height: 1.6;
+				font-size: 1.1rem;
+			}
+
+			.description p {
+				margin-bottom: 1rem;
+			}
+		</style>
+	</head>
+	<body>
+		<nav>
+			<div class="nav-content">
+				<div class="logo">CollegeBuddy</div>
+				<div class="nav-links">
+					<a href="/index.html">Discover</a>
+					<a href="/pathways.html">Your pathways</a>
+					<a href="/apps.html">Your apps</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="hero-image"></div>
+
+		<main class="content">
+			<a href="/search.html" class="breadcrumb"
+				>← Colleges in San Diego, CA</a
+			>
+			<h1 class="college-title">University of California, San Diego</h1>
+
+			<div class="tags">
+				<div class="college-stats">
+					<div class="stat">
+						<span class="stat-value">26.8%</span>
+						<span class="stat-label">acceptance</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value">45,273</span>
+						<span class="stat-label">enrollment</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value">87%</span>
+						<span class="stat-label">graduation rate</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value">$18,515</span>
+						<span class="stat-label">in-state tuition</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value">$51,089</span>
+						<span class="stat-label">out-of-state tuition</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="stats">
+				<div class="distribution">
+					<canvas id="distributionChart"></canvas>
+				</div>
+
+				<div class="ratings">
+					<div class="rating">
+						<span class="rating-label">Campus life</span>
+						<div class="rating-bar">
+							<div class="rating-fill" style="width: 80%"></div>
+						</div>
+						<span class="rating-value"><strong>8</strong>/10</span>
+					</div>
+					<div class="rating">
+						<span class="rating-label">Location</span>
+						<div class="rating-bar">
+							<div class="rating-fill" style="width: 100%"></div>
+						</div>
+						<span class="rating-value"><strong>10</strong>/10</span>
+					</div>
+					<div class="rating">
+						<span class="rating-label">Food</span>
+						<div class="rating-bar">
+							<div class="rating-fill" style="width: 70%"></div>
+						</div>
+						<span class="rating-value"><strong>7</strong>/10</span>
+					</div>
+					<div class="rating">
+						<span class="rating-label">Academic Support</span>
+						<div class="rating-bar">
+							<div class="rating-fill" style="width: 90%"></div>
+						</div>
+						<span class="rating-value"><strong>9</strong>/10</span>
+					</div>
+					<div class="rating">
+						<span class="rating-label">Research Options</span>
+						<div class="rating-bar">
+							<div class="rating-fill" style="width: 90%"></div>
+						</div>
+						<span class="rating-value"><strong>9</strong>/10</span>
+					</div>
+					<div class="rating">
+						<span class="rating-label">Housing Quality</span>
+						<div class="rating-bar">
+							<div class="rating-fill" style="width: 70%"></div>
+						</div>
+						<span class="rating-value"><strong>7</strong>/10</span>
+					</div>
+					<div class="rating">
+						<span class="rating-label">Social Life</span>
+						<div class="rating-bar">
+							<div class="rating-fill" style="width: 60%"></div>
+						</div>
+						<span class="rating-value"><strong>6</strong>/10</span>
+					</div>
+					<p class="data-source">
+						Data updated on 2024-09-01 • <a href="#">View source</a>
+					</p>
+				</div>
+			</div>
+
+			<div class="description">
+				<p>
+					UC San Diego, established in 1960, is renowned for its
+					innovative research, stunning coastal location, and
+					exceptional academic programs. Located in La Jolla, the
+					campus offers students a unique blend of rigorous academics
+					and California coastal lifestyle.
+				</p>
+				<p>
+					The university is particularly known for its strength in
+					STEM fields, ranking among the top institutions globally in
+					biology, computer science, and engineering. The iconic
+					Geisel Library, named after Dr. Seuss, stands as a symbol of
+					the university's commitment to innovation and learning.
+				</p>
+				<p>
+					With its unique college system, students enjoy the benefits
+					of a small college atmosphere within a large research
+					university. The campus culture emphasizes both academic
+					excellence and work-life balance, with easy access to
+					beaches, research institutions, and San Diego's vibrant tech
+					community.
+				</p>
+			</div>
+
+			<div class="fab-container">
+				<div class="fab-menu" id="fabMenu">
+					<div class="fab-menu-item" onclick="removeFromApps()">
+						Remove from Your Apps
+					</div>
+				</div>
+				<button class="btn btn-primary fab" id="mainFab">
+					<span id="fabText">Add to Your Apps</span>
+					<span class="fab-toggle" id="fabToggle">
+						<span class="vdots"></span>
+					</span>
+				</button>
+			</div>
+		</main>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+		<script>
+			const ctx = document
+				.getElementById("distributionChart")
+				.getContext("2d");
+			new Chart(ctx, {
+				type: "bar",
+				data: {
+					labels: [
+						"Computer Science",
+						"Biology",
+						"Engineering",
+						"Economics",
+						"Psychology",
+					],
+					datasets: [
+						{
+							label: "Acceptance Rate",
+							data: [26.8, 32.4, 29.1, 35.2, 38.5],
+							backgroundColor: "#4263EB",
+							borderRadius: 4,
+						},
+						{
+							label: "Graduation Rate",
+							data: [87, 84, 85, 82, 89],
+							backgroundColor: "#74A0FF",
+							borderRadius: 4,
+						},
+						{
+							label: "Program Ranking (percentile)",
+							data: [92, 88, 90, 85, 82],
+							backgroundColor: "#BAD1FF",
+							borderRadius: 4,
+						},
+					],
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					plugins: {
+						legend: {
+							display: true,
+							position: "top",
+						},
+					},
+					scales: {
+						y: {
+							beginAtZero: true,
+							max: 100,
+							ticks: {
+								callback: (value) => value + "%",
+							},
+						},
+						x: {
+							ticks: {
+								maxRotation: 45,
+								minRotation: 45,
+							},
+						},
+					},
+					barPercentage: 0.8,
+					categoryPercentage: 0.9,
+				},
+			});
+
+			const mainFab = document.getElementById("mainFab");
+			const fabText = document.getElementById("fabText");
+			const fabToggle = document.getElementById("fabToggle");
+			const fabMenu = document.getElementById("fabMenu");
+			let isAdded = false;
+
+			mainFab.addEventListener("click", () => {
+				if (!isAdded) {
+					isAdded = true;
+					fabText.textContent = "View in Your Apps →";
+					fabToggle.classList.add("show");
+				}
+			});
+
+			fabToggle.addEventListener("click", (e) => {
+				e.stopPropagation();
+				fabMenu.classList.toggle("show");
+			});
+
+			document.addEventListener("click", (e) => {
+				if (
+					!fabMenu.contains(e.target) &&
+					!fabToggle.contains(e.target)
+				) {
+					fabMenu.classList.remove("show");
+				}
+			});
+
+			function removeFromApps() {
+				isAdded = false;
+				fabText.textContent = "Add to Your Apps";
+				fabToggle.classList.remove("show");
+				fabMenu.classList.remove("show");
+			}
+		</script>
+	</body>
+</html>

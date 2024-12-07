@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CollegeBuddy - Search Results</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+					Roboto, Arial, sans-serif;
+			}
+
+			nav {
+				background-color: #4263eb;
+				padding: 1rem;
+				color: white;
+			}
+
+			.nav-content {
+				max-width: 1200px;
+				margin: 0 auto;
+				display: flex;
+				align-items: center;
+				gap: 2rem;
+			}
+
+			.logo {
+				font-size: 1.5rem;
+				font-weight: bold;
+				color: white;
+				text-decoration: none;
+			}
+
+			.nav-links {
+				display: flex;
+				gap: 1.5rem;
+			}
+
+			.nav-links a {
+				color: rgba(255, 255, 255, 0.9);
+				text-decoration: none;
+				font-size: 1.1rem;
+			}
+
+			.search-bar {
+				background-color: #5472ed;
+				padding: 1rem;
+				margin-bottom: 2rem;
+			}
+
+			.search-input {
+				background: transparent;
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				max-width: 1200px;
+				display: block;
+				margin: 0 auto;
+				background: rgba(255, 255, 255, 0.1);
+				padding: 1rem 1.5rem;
+				border-radius: 12px;
+				color: white;
+				font-size: 1.1rem;
+				width: 100%;
+			}
+
+			.search-input::placeholder {
+				color: rgba(255, 255, 255, 0.7);
+			}
+
+			.search-types {
+				max-width: 1200px;
+				margin: 0 auto 1rem auto;
+				display: flex;
+				gap: 0.5rem;
+			}
+
+			.search-type-btn {
+				background: rgba(255, 255, 255, 0.1);
+				border: 1px solid rgba(255, 255, 255, 0.2);
+				color: white;
+				padding: 0.5rem 1rem;
+				border-radius: 6px;
+				cursor: pointer;
+				transition: background 0.2s;
+			}
+
+			.search-type-btn:hover {
+				background: rgba(255, 255, 255, 0.2);
+			}
+
+			.filters {
+				width: 250px;
+				flex-shrink: 0;
+			}
+
+			.filter-card {
+				background: white;
+				border-radius: 12px;
+				padding: 1.5rem;
+				margin-bottom: 1rem;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			}
+
+			.filter-title {
+				font-size: 0.9rem;
+				color: #666;
+				margin-bottom: 1rem;
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.chart {
+				width: 100%;
+				height: 60px;
+				border-radius: 4px;
+				margin-bottom: 1rem;
+				position: relative;
+				overflow: hidden;
+			}
+
+			.chart-bars {
+				display: flex;
+				align-items: flex-end;
+				height: 100%;
+				padding: 0 4px;
+				gap: 2px;
+			}
+
+			.bar {
+				flex: 1;
+				background: #4263eb;
+				border-radius: 2px 2px 0 0;
+			}
+
+			.range-slider {
+				position: relative;
+				width: 100%;
+				height: 24px;
+			}
+
+			.slider {
+				width: 100%;
+			}
+
+			.filter-button.selected {
+				background-color: #2d5a87;
+				color: white;
+				border: 2px solid #2d5a87;
+			}
+		</style>
+	</head>
+	<body>
+		<nav>
+			<div class="nav-content">
+				<a href="#" class="logo">CollegeBuddy</a>
+				<div class="nav-links">
+					<a href="/index.html">Discover</a>
+					<a href="/pathways.html">Your pathways</a>
+					<a href="/apps.html">Your apps</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="search-bar">
+			<div class="search-types">
+				<button
+					class="search-type-btn"
+					onclick="setPlaceholder('San Diego, CA')"
+				>
+					Location
+				</button>
+				<button
+					class="search-type-btn"
+					onclick="setPlaceholder('Computer Science')"
+				>
+					Major
+				</button>
+				<button
+					class="search-type-btn"
+					onclick="setPlaceholder('Top Engineering Schools')"
+				>
+					Rankings
+				</button>
+			</div>
+			<input
+				id="searchInput"
+				class="search-input"
+				placeholder="San Diego, CA"
+			/>
+		</div>
+
+		<main
+			style="
+				max-width: 1230px;
+				margin: 0 auto;
+				padding: 0 1rem;
+				display: flex;
+				gap: 1.5rem;
+			"
+		>
+			<div class="filters">
+				<div class="filter-card">
+					<div class="filter-title">
+						<span>Tuition</span>
+						<span>$1k - $20k</span>
+					</div>
+					<div class="chart">
+						<div class="chart-bars">
+							<div class="bar" style="height: 20%"></div>
+							<div class="bar" style="height: 30%"></div>
+							<div class="bar" style="height: 50%"></div>
+							<div class="bar" style="height: 80%"></div>
+							<div class="bar" style="height: 100%"></div>
+							<div class="bar" style="height: 80%"></div>
+							<div class="bar" style="height: 50%"></div>
+							<div class="bar" style="height: 30%"></div>
+							<div class="bar" style="height: 20%"></div>
+						</div>
+					</div>
+					<div class="range-slider">
+						<input
+							type="range"
+							min="1000"
+							max="20000"
+							value="1000"
+							class="slider"
+						/>
+					</div>
+				</div>
+
+				<div class="filter-card">
+					<div class="filter-title">
+						<span>Acceptance</span>
+						<span>20% - 80%</span>
+					</div>
+					<div class="chart">
+						<div class="chart-bars">
+							<div class="bar" style="height: 30%"></div>
+							<div class="bar" style="height: 40%"></div>
+							<div class="bar" style="height: 60%"></div>
+							<div class="bar" style="height: 90%"></div>
+							<div class="bar" style="height: 100%"></div>
+							<div class="bar" style="height: 90%"></div>
+							<div class="bar" style="height: 60%"></div>
+							<div class="bar" style="height: 40%"></div>
+							<div class="bar" style="height: 30%"></div>
+						</div>
+					</div>
+					<div class="range-slider">
+						<input
+							type="range"
+							min="20"
+							max="80"
+							value="20"
+							class="slider"
+						/>
+					</div>
+				</div>
+
+				<div class="filter-card">
+					<div class="filter-title">
+						<span>Enrollment</span>
+						<span>4k - 40k</span>
+					</div>
+					<div class="chart">
+						<div class="chart-bars">
+							<div class="bar" style="height: 25%"></div>
+							<div class="bar" style="height: 45%"></div>
+							<div class="bar" style="height: 65%"></div>
+							<div class="bar" style="height: 85%"></div>
+							<div class="bar" style="height: 100%"></div>
+							<div class="bar" style="height: 85%"></div>
+							<div class="bar" style="height: 65%"></div>
+							<div class="bar" style="height: 45%"></div>
+							<div class="bar" style="height: 25%"></div>
+						</div>
+					</div>
+					<div class="range-slider">
+						<input
+							type="range"
+							min="4000"
+							max="40000"
+							value="4000"
+							class="slider"
+						/>
+					</div>
+				</div>
+			</div>
+
+			<div class="college-cards">
+				<article class="college-card">
+					<img
+						src="https://www.sdsu.edu/about/images/conrad-prebys-aztec-student-union.jpg"
+						alt="SDSU Campus"
+						class="college-image"
+					/>
+					<div class="college-info">
+						<a class="college-name" href="/ucsd.html"
+							>San Diego State University</a
+						>
+						<p class="college-description">
+							A leading public research university known for its
+							diverse student body and strong academic programs.
+						</p>
+						<div class="tuition-group">
+							<div class="stat">
+								<span class="stat-value">$8,290</span>
+								<span class="stat-label">in-state tuition</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">$20,170</span>
+								<span class="stat-label"
+									>out-of-state tuition</span
+								>
+							</div>
+						</div>
+						<div class="college-stats">
+							<div class="stat">
+								<span class="stat-value">34%</span>
+								<span class="stat-label">acceptance</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">37,402</span>
+								<span class="stat-label">enrollment</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">78%</span>
+								<span class="stat-label">graduation rate</span>
+							</div>
+						</div>
+					</div>
+				</article>
+
+				<article class="college-card">
+					<img
+						src="https://www.sandiego.edu/admission-and-aid/undergraduate/images/campus-beauty.jpg"
+						alt="USD Campus"
+						class="college-image"
+					/>
+					<div class="college-info">
+						<a class="college-name" href="/ucsd.html"
+							>University of San Diego</a
+						>
+						<p class="college-description">
+							A private Roman Catholic university offering a rich
+							academic environment and beautiful campus
+							overlooking the Pacific.
+						</p>
+						<div class="tuition-group">
+							<div class="stat">
+								<span class="stat-value">$55,898</span>
+								<span class="stat-label">in-state tuition</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">$55,898</span>
+								<span class="stat-label"
+									>out-of-state tuition</span
+								>
+							</div>
+						</div>
+						<div class="college-stats">
+							<div class="stat">
+								<span class="stat-value">59%</span>
+								<span class="stat-label">acceptance</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">8,538</span>
+								<span class="stat-label">enrollment</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">79%</span>
+								<span class="stat-label">graduation rate</span>
+							</div>
+						</div>
+					</div>
+				</article>
+
+				<article class="college-card">
+					<img
+						src="https://www.calstate.edu/attend/campuses/SiteAssets/campus-facts/campus-fact-data/campus-images/SAN%20MARCOS/san%20marcos-1.jpg"
+						alt="CSUSM Campus"
+						class="college-image"
+					/>
+					<div class="college-info">
+						<a class="college-name" href="/ucsd.html">
+							California State University San Marcos
+						</a>
+						<p class="college-description">
+							A young and rapidly growing campus offering
+							innovative programs and strong community
+							partnerships.
+						</p>
+						<div class="tuition-group">
+							<div class="stat">
+								<span class="stat-value">$7,290</span>
+								<span class="stat-label">in-state tuition</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">$18,600</span>
+								<span class="stat-label"
+									>out-of-state tuition</span
+								>
+							</div>
+						</div>
+						<div class="college-stats">
+							<div class="stat">
+								<span class="stat-value">95%</span>
+								<span class="stat-label">acceptance</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">16,000</span>
+								<span class="stat-label">enrollment</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">57%</span>
+								<span class="stat-label">graduation rate</span>
+							</div>
+						</div>
+					</div>
+				</article>
+
+				<article class="college-card">
+					<img
+						src="https://www.pointloma.edu/sites/default/files/styles/16_9_900w/public/images/B42T1701-3.jpg?h=d8b2d495&itok=t8okuqPJ"
+						alt="PLNU Campus"
+						class="college-image"
+					/>
+					<div class="college-info">
+						<a class="college-name" href="/ucsd.html">
+							Point Loma Nazarene University
+						</a>
+						<p class="college-description">
+							A Christian liberal arts institution known for its
+							scenic coastal location and strong community values.
+						</p>
+						<div class="tuition-group">
+							<div class="stat">
+								<span class="stat-value">$39,940</span>
+								<span class="stat-label">in-state tuition</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">$39,940</span>
+								<span class="stat-label"
+									>out-of-state tuition</span
+								>
+							</div>
+						</div>
+						<div class="college-stats">
+							<div class="stat">
+								<span class="stat-value">82%</span>
+								<span class="stat-label">acceptance</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">4,327</span>
+								<span class="stat-label">enrollment</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">74%</span>
+								<span class="stat-label">graduation rate</span>
+							</div>
+						</div>
+					</div>
+				</article>
+
+				<article class="college-card">
+					<img
+						src="https://images.adsttc.com/media/images/5196/626f/b3fc/4b96/d700/0008/large_jpg/Geisel_Library_2.jpg?1368810091"
+						alt="UCSD Campus"
+						class="college-image"
+					/>
+					<div class="college-info">
+						<a class="college-name" href="/ucsd.html">
+							University of California, San Diego (UCSD)
+						</a>
+						<p class="college-description">
+							A world-renowned public research university known
+							for its strong STEM programs, innovative research,
+							and beautiful coastal location in La Jolla.
+						</p>
+						<div class="tuition-group">
+							<div class="stat">
+								<span class="stat-value">$18,515</span>
+								<span class="stat-label">in-state tuition</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">$51,089</span>
+								<span class="stat-label"
+									>out-of-state tuition</span
+								>
+							</div>
+						</div>
+						<div class="college-stats">
+							<div class="stat">
+								<span class="stat-value">26.8%</span>
+								<span class="stat-label">acceptance</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">45,273</span>
+								<span class="stat-label">enrollment</span>
+							</div>
+							<div class="stat">
+								<span class="stat-value">87%</span>
+								<span class="stat-label">graduation rate</span>
+							</div>
+						</div>
+					</div>
+				</article>
+			</div>
+
+			<style>
+				.college-cards {
+					flex: 1 1 0%;
+				}
+
+				.college-card {
+					background: white;
+					border-radius: 12px;
+					margin-bottom: 1.5rem;
+					overflow: clip;
+					display: flex;
+					box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+				}
+
+				.college-image {
+					width: 200px;
+					object-fit: cover;
+					flex-shrink: 0;
+				}
+
+				.college-info {
+					flex: 1 1 0%;
+					padding: 1.5rem;
+				}
+
+				.college-name {
+					font-size: 1.3rem;
+					font-weight: 600;
+					margin-bottom: 0.5rem;
+				}
+
+				.college-description {
+					color: #666;
+					margin-bottom: 1rem;
+					line-height: 1.5;
+				}
+
+				.tuition-group {
+					display: flex;
+					gap: 2rem;
+					margin-bottom: 1rem;
+					padding-bottom: 1rem;
+					border-bottom: 1px solid #eee;
+				}
+
+				.college-stats {
+					display: flex;
+					gap: 2rem;
+					flex-wrap: wrap;
+				}
+
+				.stat {
+					display: flex;
+					flex-direction: column;
+					min-width: 120px;
+				}
+
+				.stat-value {
+					font-weight: 600;
+					font-size: 1.1rem;
+				}
+
+				.stat-label {
+					color: #666;
+					font-size: 0.9rem;
+				}
+			</style>
+		</main>
+
+		<script>
+			function setPlaceholder(text) {
+				document.getElementById("searchInput").placeholder = text;
+			}
+
+			function toggleFilter(filterType) {
+				const buttons = document.querySelectorAll(
+					`[data-filter="${filterType}"]`
+				);
+
+				buttons.forEach((btn) => {
+					if (btn !== event.target) {
+						btn.classList.remove("selected");
+					}
+				});
+
+				event.target.classList.toggle("selected");
+
+				updateResults();
+			}
+		</script>
+	</body>
+</html>
